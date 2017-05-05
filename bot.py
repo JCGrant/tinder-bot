@@ -1,4 +1,3 @@
-import os
 import pynder
 from token_util import get_token
 
