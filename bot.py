@@ -8,6 +8,7 @@ class Bot:
         self.fb_email = fb_email
         self.fb_password = fb_password
         self.renew_session()
+        self.running = False
     
     def renew_session(self):
         print("Obtaining Facebook ID and Token")
@@ -16,9 +17,13 @@ class Bot:
         self.session = pynder.Session(facebook_id=fb_id, facebook_token=fb_token)
 
     def keep_fetching_matches(self):
-        while True:
+        while self.running:
             self.matches = list(self.session.matches())
 
     def start(self):
         bot_thread = Thread(target=self.keep_fetching_matches, daemon=True)
+        self.running = True
         bot_thread.start()
+
+    def stop(self):
+        self.running = False
