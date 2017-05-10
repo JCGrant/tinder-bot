@@ -1,5 +1,6 @@
 import pynder
 from fb_auth_util import get_auth_details
+from threading import Thread
 
 
 class Bot:
@@ -13,3 +14,11 @@ class Bot:
         fb_id, fb_token = get_auth_details(self.fb_email, self.fb_password)
         print("Creating new pynder Session")
         self.session = pynder.Session(facebook_id=fb_id, facebook_token=fb_token)
+
+    def keep_fetching_matches(self):
+        while True:
+            self.matches = list(self.session.matches())
+
+    def start(self):
+        bot_thread = Thread(target=self.keep_fetching_matches, daemon=True)
+        bot_thread.start()
