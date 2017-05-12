@@ -1,20 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+const Match = (match) => {
+  return (
+    <div key={match._id} className="match">
+      <p>{match.person.name}</p>
+      <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
+    </div>
+  );
+};
+
+class Matches extends Component {
+  constructor() {
+    super()
+    this.state = {
+      matches: []
+    }
+    fetch('/matches/')
+      .then((response) => response.json())
+      .then((matches) => this.setState({matches}));
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.matches.map((match) => {
+          return Match(match);
+        })}
+      </div>
+    );
+  }
+}
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+    return <Matches />;
   }
 }
 
