@@ -27,6 +27,10 @@ class Match extends Component {
         <Link to="/">Back</Link>
         <h1>{match.person.name}</h1>
         <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
+
+        <ul>
+          {match.messages.map((message) => <li key={message._id}>{message.message}</li> )}
+        </ul>
       </div>
     )
   }
