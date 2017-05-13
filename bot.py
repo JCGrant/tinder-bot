@@ -9,6 +9,7 @@ class Bot:
         self.fb_password = fb_password
         self.renew_session()
         self.running = False
+        self.matches_json = []
     
     def renew_session(self):
         print("Obtaining Facebook ID and Token")
@@ -18,7 +19,7 @@ class Bot:
 
     def keep_fetching_matches(self):
         while self.running:
-            self.matches = list(self.session.matches())
+            self.matches_json = self.session._api.matches(None)
 
     def start(self):
         bot_thread = Thread(target=self.keep_fetching_matches, daemon=True)
