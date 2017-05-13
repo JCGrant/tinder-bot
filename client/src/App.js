@@ -26,7 +26,13 @@ class Match extends Component {
       <div className="match">
         <Link to="/">Back</Link>
         <h1>{match.person.name}</h1>
-        <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
+        {match.person.photos.map((photo) => (
+          <img
+            src={photo.processedFiles[3].url}
+            alt=""
+            key={photo.id}
+          />
+        ))}
 
         <ul>
           {match.messages.map((message) => <li key={message._id}>{message.message}</li> )}
