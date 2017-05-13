@@ -28,7 +28,7 @@ class Match extends Component {
         <h1>{match.person.name}</h1>
         {match.person.photos.map((photo) => (
           <img
-            src={photo.processedFiles[3].url}
+            src={photo.processedFiles[1].url}
             alt=""
             key={photo.id}
           />
@@ -44,8 +44,10 @@ class Match extends Component {
 
 const MatchItem = ({match}) => (
   <div className="match">
-    <Link to={"/matches/" + match._id}>{match.person.name}</Link><br/>
-    <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
+    <Link to={"/matches/" + match._id}>
+      {match.person.name}<br/>
+      <img src={match.person.photos[0].processedFiles[2].url} alt=""/>
+    </Link>
   </div>
 );
 
