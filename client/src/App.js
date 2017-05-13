@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 import './App.css';
 
-const Match = (match) => {
-  return (
-    <div key={match._id} className="match">
-      <p>{match.person.name}</p>
-      <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
-    </div>
-  );
-};
+const MatchItem = ({match}) => (
+  <div className="match">
+    <Link to={"/matches/" + match._id}>{match.person.name}</Link><br/>
+    <img src={match.person.photos[0].processedFiles[3].url} alt=""/>
+  </div>
+);
 
-class Matches extends Component {
+const MatchList = ({matches}) => (
+  <div>
+    {matches.map((match) => <MatchItem match={match} key={match._id} /> )}
+  </div>
+);
+
+class Home extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       matches: []
     }
@@ -23,19 +32,17 @@ class Matches extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.matches.map((match) => {
-          return Match(match);
-        })}
-      </div>
-    );
+      <MatchList matches={this.state.matches} />
+    )
   }
 }
 
-class App extends Component {
-  render() {
-    return <Matches />;
-  }
-}
+const App = () => (
+  <Router>
+    <div>
+      <Route exact path="/" component={Home} />
+    </div>
+  </Router>
+);
 
 export default App;
