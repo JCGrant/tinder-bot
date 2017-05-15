@@ -26,6 +26,10 @@ class Match extends Component {
       })
   }
 
+  componentWillUnmount() {
+    socket.removeListener('messages:' + this.state.tinderMatch._id);
+  }
+
   render() {
     const match = this.state.tinderMatch;
     if (!match) {
