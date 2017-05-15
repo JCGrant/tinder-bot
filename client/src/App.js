@@ -11,13 +11,19 @@ const socket = io.connect();
 
 
 class Match extends Component {
+  // The paramater match is the prop given by react router. Not a tinder match.
   constructor({match}) {
     super();
     this.state = {
     }
     fetch('/matches/' + match.params.matchId + '/')
       .then((response) => response.json())
-      .then((tinderMatch) => this.setState({tinderMatch}));
+      .then((tinderMatch) => {
+        this.setState({tinderMatch});
+        socket.on('messages:' + tinderMatch._id, (messages) => {
+          this.setState({messages});
+        });
+      })
   }
 
   render() {
@@ -25,6 +31,7 @@ class Match extends Component {
     if (!match) {
       return null;
     }
+    const messages = this.state.messages || match.messages;
     return (
       <div className="match">
         <Link to="/">Back</Link>
@@ -38,7 +45,7 @@ class Match extends Component {
         ))}
 
         <ul>
-          {match.messages.map((message) => <li key={message._id}>{message.message}</li> )}
+          {messages.map((message) => <li key={message._id}>{message.message}</li> )}
         </ul>
       </div>
     )

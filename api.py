@@ -17,7 +17,10 @@ cache = SimpleCache()
 
 def keep_fetching_updates():
     while True:
-        cache.set('updates', bot.session._api.updates(None), timeout=5 * 60)
+        updates = bot.session._api.updates(None)
+        cache.set('updates', updates, timeout=5 * 60)
+        for match in updates['matches']:
+            socket.emit('messages:' + match['_id'], match['messages'])
         time.sleep(5)
 
 def start_fetching_updates():
