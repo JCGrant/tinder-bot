@@ -3,6 +3,7 @@ from bot import Bot
 from flask import Flask
 from flask_restful import Resource, Api
 from flask_socketio import SocketIO
+from werkzeug.contrib.cache import SimpleCache
 
 bot = Bot(config.FACEBOOK_EMAIL, config.FACEBOOK_PASSWORD)
 
@@ -10,17 +11,24 @@ app = Flask(__name__)
 api = Api(app)
 socket = SocketIO(app)
 
+cache = SimpleCache()
+
 def get_updates():
-    return bot.session._api.updates(None)
+    if not cache.has('updates'):
+        cache.set('updates', bot.session._api.updates(None), timeout=5 * 60)
+    return cache.get('updates')
+
+def get_matches():
+    return get_updates().get('matches')
 
 class Matches(Resource):
     def get(self):
-        return get_updates().get('matches')
+        return get_matches()
 
 class Match(Resource):
     def get(self, match_id):
         match = {}
-        for m in get_updates().get('matches'):
+        for m in get_matches():
             if m['_id'] == match_id:
                 match = m
                 break
