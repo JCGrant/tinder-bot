@@ -5,6 +5,7 @@ cached-property==1.3.0
 click==6.7
 Flask==0.12.1
 Flask-RESTful==0.3.5
+Flask-SocketIO==2.8.6
 itsdangerous==0.24
 Jinja2==2.9.6
 lxml==3.7.3
@@ -13,6 +14,8 @@ packaging==16.8
 pynder==0.0.13
 pyparsing==2.2.0
 python-dateutil==2.6.0
+python-engineio==1.5.1
+python-socketio==1.7.4
 pytz==2017.2
 requests==2.13.0
 robobrowser==0.5.3

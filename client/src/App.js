@@ -5,6 +5,9 @@ import {
   Link
 } from 'react-router-dom'
 import './App.css';
+import io from 'socket.io-client';
+
+const socket = io.connect();
 
 
 class Match extends Component {

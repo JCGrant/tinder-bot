@@ -2,11 +2,13 @@ import config
 from bot import Bot
 from flask import Flask
 from flask_restful import Resource, Api
+from flask_socketio import SocketIO
 
 bot = Bot(config.FACEBOOK_EMAIL, config.FACEBOOK_PASSWORD)
 
 app = Flask(__name__)
 api = Api(app)
+socket = SocketIO(app)
 
 def get_updates():
     return bot.session._api.updates(None)
@@ -28,4 +30,4 @@ api.add_resource(Matches, '/matches/')
 api.add_resource(Match, '/matches/<match_id>/')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socket.run(app, debug=True)
